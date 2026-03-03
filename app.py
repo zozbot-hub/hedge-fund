@@ -7,12 +7,20 @@ Features: live price, agent status cards, cycle countdown,
 import os, sys, subprocess
 from datetime import datetime, date, timedelta
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 # Import config (works with or without env vars)
 import config
 
 app = Flask(__name__)
 LOG_PATH = config.LOG_PATH
+
+# Enable CORS for GitHub Pages and local development
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["*"]  # Restrict to your GitHub Pages domain in production
+    }
+})
 
 # ── helpers ───────────────────────────────────────────────────────────────────
 
