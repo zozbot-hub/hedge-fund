@@ -503,5 +503,142 @@ def index():
 def api():
     return jsonify(fetch_data())
 
+# New API endpoints for static dashboard
+
+@app.route('/api/dashboard')
+def api_dashboard():
+    """Dashboard overview data."""
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    
+    try:
+        cur.execute("SELECT COUNT(*) as count FROM bots WHERE status = 'active'")
+        total_bots_active = cur.fetchone()['count']
+        
+        cur.execute("SELECT COUNT(*) as count FROM bots")
+        total_bots = cur.fetchone()['count']
+        
+        cur.execute("SELECT COUNT(*) as count FROM trades")
+        total_trades = cur.fetchone()['count']
+        
+        cur.execute("SELECT COUNT(*) as count FROM trades WHERE status = 'open'")
+        open_trades_count = cur.fetchone()['count']
+        
+        cur.execute("SELECT COUNT(*) as count FROM trades WHERE status = 'closed'")
+        closed_trades_count = cur.fetchone()['count']
+        
+        cur.execute("SELECT COALESCE(SUM(pnl), 0) as total_pnl FROM trades WHERE status = 'closed'")
+        total_pnl = cur.fetchone()['total_pnl'] or 0
+        
+        cur.execute("""
+            SELECT s.*, b.name as bot_name 
+            FROM signals s 
+            JOIN bots b ON s.bot_id = b.bot_id 
+            ORDER BY s.timestamp DESC 
+            LIMIT 10
+        """)
+        recent_signals = cur.fetchall()
+        
+        cur.execute("""
+            SELECT t.*, b.name as bot_name 
+            FROM trades t 
+            JOIN bots b ON t.bot_id = b.bot_id 
+            ORDER BY t.entry_time DESC 
+            LIMIT 10
+        """)
+        recent_trades = cur.fetchall()
+        
+        cur.execute("""
+            SELECT b.bot_id, b.name, b.strategy, b.timeframe, b.status,
+                   COUNT(t.trade_id) FILTER (WHERE t.status = 'open') as open_trades,
+                   COALESCE(SUM(t.pnl) FILTER (WHERE t.status = 'closed'), 0) as pnl
+            FROM bots b
+            LEFT JOIN trades t ON b.bot_id = t.bot_id
+            GROUP BY b.bot_id, b.name, b.strategy, b.timeframe, b.status
+            ORDER BY b.name
+        """)
+        bots_summary = cur.fetchall()
+        
+    finally:
+        cur.close()
+        conn.close()
+    
+    return jsonify({
+        'total_bots': total_bots,
+        'total_bots_active': total_bots_active,
+        'total_trades': total_trades,
+        'open_trades_count': open_trades_count,
+        'closed_trades_count': closed_trades_count,
+        'total_pnl': float(total_pnl),
+        'recent_signals': [dict(s) for s in recent_signals],
+        'recent_trades': [dict(t) for t in recent_trades],
+        'bots_summary': [dict(b) for b in bots_summary]
+    })
+
+@app.route('/api/bots')
+def api_bots():
+    """All bots data."""
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    
+    try:
+        cur.execute("""
+            SELECT b.bot_id, b.name, b.strategy, b.timeframe, b.status, b.created_at,
+                   COUNT(t.trade_id) as total_trades,
+                   COUNT(t.trade_id) FILTER (WHERE t.status = 'open') as open_trades,
+                   COUNT(t.trade_id) FILTER (WHERE t.status = 'closed') as closed_trades,
+                   COALESCE(SUM(t.pnl) FILTER (WHERE t.status = 'closed'), 0) as total_pnl
+            FROM bots b
+            LEFT JOIN trades t ON b.bot_id = t.bot_id
+            GROUP BY b.bot_id, b.name, b.strategy, b.timeframe, b.status, b.created_at
+            ORDER BY b.name
+        """)
+        bots = cur.fetchall()
+        bots = [dict(b) for b in bots]
+        
+        for bot in bots:
+            if bot['closed_trades'] > 0:
+                cur.execute("""
+                    SELECT COUNT(*) as wins 
+                    FROM trades 
+                    WHERE bot_id = %s AND status = 'closed' AND pnl > 0
+                """, (bot['bot_id'],))
+                wins = cur.fetchone()['wins']
+                bot['win_rate'] = round((wins / bot['closed_trades']) * 100, 2)
+            else:
+                bot['win_rate'] = 0
+    finally:
+        cur.close()
+        conn.close()
+    
+    return jsonify({'bots': bots})
+
+@app.route('/api/trades')
+def api_trades():
+    """All trades data."""
+    conn = get_db_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    
+    try:
+        cur.execute("""
+            SELECT t.*, b.name as bot_name, b.bot_id
+            FROM trades t 
+            JOIN bots b ON t.bot_id = b.bot_id 
+            ORDER BY t.entry_time DESC 
+            LIMIT 200
+        """)
+        trades = cur.fetchall()
+        
+        cur.execute("SELECT bot_id, name FROM bots ORDER BY name")
+        all_bots = cur.fetchall()
+    finally:
+        cur.close()
+        conn.close()
+    
+    return jsonify({
+        'trades': [dict(t) for t in trades],
+        'all_bots': [dict(b) for b in all_bots]
+    })
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
