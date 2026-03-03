@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Trades - Trading Bot Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📊 Trading Bot Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="bots.html">Bots</a></li>
+            <li><a href="trades.html" class="active">Trades</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <div class="header-left">
+                <h1>All Trades</h1>
+            </div>
+            <div class="header-right">
+                <div class="filter-form">
+                    <select id="status-filter">
+                        <option value="all">All Status</option>
+                        <option value="open">Open</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <select id="bot-filter">
+                        <option value="all">All Bots</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <section class="section">
+            <div id="trades-container">
+                <div class="loading">Loading trades...</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/trades.js"></script>
+</body>
+</html>

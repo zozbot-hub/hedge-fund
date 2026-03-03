@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Bots - Trading Bot Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📊 Trading Bot Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="bots.html" class="active">Bots</a></li>
+            <li><a href="trades.html">Trades</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>All Trading Bots</h1>
+            <div class="bot-count" id="bot-count">-- bots</div>
+        </header>
+
+        <div class="bots-grid" id="bots-grid">
+            <div class="loading">Loading bots...</div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/bots.js"></script>
+</body>
+</html>

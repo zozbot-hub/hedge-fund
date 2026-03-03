@@ -1,0 +1,34 @@
+// API Configuration
+const API_BASE = 'http://[2a02:c207:2311:1618::1]:5000/api';
+
+// Fetch with error handling
+async function fetchAPI(endpoint) {
+    try {
+        const response = await fetch(`${API_BASE}${endpoint}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error('API Error:', error);
+        return null;
+    }
+}
+
+// Format currency
+function formatCurrency(value) {
+    if (value === null || value === undefined) return '$0.00';
+    const sign = value >= 0 ? '+' : '';
+    return `${sign}$${value.toFixed(2)}`;
+}
+
+// Format percentage
+function formatPercent(value) {
+    if (value === null || value === undefined) return '0%';
+    return `${value.toFixed(1)}%`;
+}
+
+// Format timestamp
+function formatTime(timestamp) {
+    if (!timestamp) return '-';
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+}

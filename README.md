@@ -1,72 +1,124 @@
-# Crypto Hedge Fund Dashboard
+# Static Dashboard for GitHub Pages
 
-A lightweight Flask dashboard for monitoring trading bot performance.
+A static HTML/CSS/JS dashboard that connects to your VDS API for live trading data.
 
-## Features
+## Architecture
 
-- **Live BTC Price**: Real-time price display
-- **Agent Status Cards**: Visual status of all trading agents
-- **7-Day PnL Calendar**: Daily profit/loss tracking
-- **Open Positions**: Active trades with unrealized PnL
-- **Performance Stats**: Win rate, total PnL, trade duration
-- **Live Log**: Real-time orchestrator logs
-- **Signal Feed**: Recent trading signals with execution status
+```
+GitHub Pages (Free Hosting)
+    ↓ JavaScript fetch()
+VDS API (Your Server)
+    ↓ Flask App
+Trading Data
+```
 
-## Quick Start
+## Setup
 
-### Local Development
+### 1. Configure API Endpoint
+
+Edit `js/app.js` and update the API_BASE:
+
+```javascript
+const API_BASE = 'http://YOUR_VDS_IP:5000/api';
+// or use domain: 'https://api.yourdomain.com/api'
+```
+
+### 2. Enable CORS on VDS
+
+SSH to your VDS and update the Flask app:
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the app
-python app.py
+pip install flask-cors
 ```
 
-Visit: http://localhost:5000
+Add to your Flask app:
 
-### Docker Deployment
+```python
+from flask_cors import CORS
+
+# Allow GitHub Pages
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["https://zozbot-hub.github.io", "http://localhost:*"]
+    }
+})
+```
+
+Or for testing (less secure):
+
+```python
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+```
+
+### 3. Test Locally
 
 ```bash
-# Build image
-docker build -t hedge-dashboard .
-
-# Run container
-docker run -p 5000:5000 hedge-dashboard
+cd static-dashboard
+python -m http.server 8000
 ```
 
-### Environment Variables
+Open http://localhost:8000
 
-Create a `.env` file (optional - app works with defaults):
+The dashboard should load data from your VDS.
 
-```env
-# Database (optional - falls back to mock data)
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=trader
-DB_PASS=yourpassword
-DB_NAME=hedgefund
+### 4. Deploy to GitHub Pages
 
-# Redis (optional)
-REDIS_HOST=localhost
-REDIS_PORT=6379
-
-# Log path (optional)
-LOG_PATH=/path/to/orchestrator.log
+Option A: Separate repo (recommended)
+```bash
+# Create new repo for just the static site
+git init
+git add .
+git commit -m "Initial static dashboard"
+git remote add origin https://github.com/zozbot-hub/hedge-fund-dashboard.git
+git push -u origin main
 ```
 
-## API Endpoints
+Option B: Same repo, gh-pages branch
+```bash
+git checkout --orphan gh-pages
+git rm -rf .
+cp -r static-dashboard/* .
+git add .
+git commit -m "Static dashboard"
+git push origin gh-pages
+```
 
-| Endpoint | Description |
-|----------|-------------|
-| `/` | Main dashboard (HTML) |
-| `/api/data` | JSON data feed |
+Then enable GitHub Pages in repo settings.
 
-## Auto-Refresh
+## Security
 
-Dashboard auto-refreshes every 15 seconds.
+✅ **Safe for public:**
+- No API keys in JavaScript
+- No secrets in HTML/CSS
+- All sensitive logic on VDS
 
-## License
+⚠️ **VDS Security:**
+- Use HTTPS in production
+- Restrict CORS origins to your GitHub Pages domain
+- Add API authentication if needed
 
-MIT
+## Files
+
+```
+static-dashboard/
+├── index.html      # Main dashboard
+├── css/
+│   └── style.css   # Dashboard styles
+├── js/
+│   └── app.js      # API client
+└── README.md       # This file
+```
+
+## Troubleshooting
+
+**CORS errors:**
+- Check VDS Flask app has CORS enabled
+- Verify the origin matches your GitHub Pages URL
+
+**Connection refused:**
+- Ensure VDS firewall allows port 5000
+- Check Flask app is running: `python app.py`
+
+**Mixed content:**
+- Use HTTPS on both GitHub Pages and VDS
+- Or use HTTP on both (not recommended for production)
