@@ -1,0 +1,52 @@
+# Security: Ignore all sensitive files
+.env
+.env.*
+!.env.example
+
+# Secrets
+*secret*
+*token*
+*password*
+*credential*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Infrastructure (NEVER commit these)
+memory_system.py
+subagents/
+ollama/
+discord/
+trading_algorithms/
+config/secrets.py
