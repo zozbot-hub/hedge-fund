@@ -1,0 +1,390 @@
+/* Hedge Fund Dashboard Styles */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #090b10;
+  color: #b0bccf;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  background: #0c0f18;
+  border-bottom: 1px solid #192030;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #dce4f0;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #192030;
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 11px;
+}
+
+.pill .lbl {
+  color: #3a4a60;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.pill .val {
+  color: #c0cce0;
+  font-weight: 600;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #555;
+  box-shadow: 0 0 5px #555;
+}
+
+.dot.running {
+  background: #00e676;
+  box-shadow: 0 0 5px #00e676;
+}
+
+.dot.stopped {
+  background: #ff5252;
+  box-shadow: 0 0 5px #ff5252;
+}
+
+.ml {
+  margin-left: auto;
+}
+
+main {
+  padding: 14px 20px;
+  display: grid;
+  gap: 14px;
+  max-width: 1800px;
+}
+
+.g2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.g3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+@media(max-width:1100px) {
+  .g3 { grid-template-columns: 1fr 1fr; }
+}
+
+@media(max-width:700px) {
+  .g2, .g3 { grid-template-columns: 1fr; }
+  header { padding: 8px 12px; }
+  h1 { font-size: 14px; }
+}
+
+.card {
+  background: #0e111a;
+  border: 1px solid #192030;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ch {
+  padding: 9px 14px;
+  background: #0c0f18;
+  border-bottom: 1px solid #192030;
+  font-size: 10px;
+  font-weight: 700;
+  color: #4a5870;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 4px;
+  background: #14192a;
+  border: 1px solid #243050;
+  color: #4a90d9;
+}
+
+/* agent cards */
+.agents {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #192030;
+}
+
+@media(max-width:700px) {
+  .agents { grid-template-columns: 1fr 1fr; }
+}
+
+.acard {
+  background: #0e111a;
+  padding: 12px 14px;
+}
+
+.aname {
+  font-size: 10px;
+  color: #4a5870;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 5px;
+}
+
+.aact {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.aact.buy { color: #00e676; }
+.aact.sell { color: #ff6b6b; }
+.aact.hold { color: #555; }
+
+.abar {
+  height: 4px;
+  background: #131820;
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
+
+.abar-fill {
+  height: 100%;
+  background: #2a4a7a;
+  border-radius: 2px;
+  transition: width .3s;
+}
+
+.aconf {
+  font-size: 11px;
+  color: #5a6880;
+}
+
+.atime {
+  color: #334455;
+}
+
+/* calendar */
+.cal {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  padding: 12px 14px;
+}
+
+.cal-cell {
+  border-radius: 7px;
+  padding: 8px 10px;
+  min-height: 70px;
+  border: 1px solid #1e2535;
+}
+
+.cal-cell.today {
+  border: 1px solid #4a90d9;
+}
+
+.cal-date {
+  font-size: 10px;
+  color: #5a6880;
+  margin-bottom: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.cal-pnl {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.cal-pnl.positive { color: #00e676; }
+.cal-pnl.negative { color: #ff5252; }
+
+.cal-sub {
+  font-size: 10px;
+  color: #3a4a58;
+}
+
+/* stats bar */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stat {
+  padding: 12px 18px;
+  border-right: 1px solid #192030;
+}
+
+.stat:last-child {
+  border-right: none;
+}
+
+.sl {
+  color: #4a5870;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 3px;
+}
+
+.sv {
+  font-size: 19px;
+  font-weight: 700;
+  color: #d0dced;
+}
+
+.sv.positive { color: #00e676; }
+.sv.negative { color: #ff5252; }
+
+/* table */
+.tw {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  padding: 7px 12px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #4a5870;
+  border-bottom: 1px solid #192030;
+  white-space: nowrap;
+}
+
+td {
+  padding: 6px 12px;
+  border-bottom: 1px solid #10141e;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: rgba(255,255,255,.015);
+}
+
+.empty {
+  text-align: center;
+  color: #2a3444;
+  padding: 18px !important;
+}
+
+.dim {
+  color: #444;
+}
+
+.side-buy { color: #00e676; font-weight: 700; }
+.side-sell { color: #ff6b6b; }
+.pnl-positive { color: #00e676; font-weight: 700; }
+.pnl-negative { color: #ff5252; font-weight: 700; }
+
+/* tags */
+.tag-llm {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  background: #0d2035;
+  color: #4fc3f7;
+  border: 1px solid #1a3a55;
+}
+
+.tag-det {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #3a4a5a;
+  background: #111520;
+  border: 1px solid #1a2030;
+}
+
+.tag-rej {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  color: #ff7043;
+  background: #1a0e0a;
+  border: 1px solid #3a1a10;
+}
+
+.signal-legend {
+  margin-left: auto;
+  font-size: 10px;
+  color: #2a3848;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* log */
+.log {
+  padding: 10px 14px;
+  background: #060810;
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  font-size: 11px;
+  color: #2a5a30;
+  max-height: 260px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-height: 1.65;
+}
+
+/* error banner */
+.error-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #2a1510;
+  color: #ff8a65;
+  padding: 10px 20px;
+  text-align: center;
+  border-top: 1px solid #4a2a20;
+  z-index: 100;
+}
