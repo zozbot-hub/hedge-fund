@@ -3,8 +3,8 @@
  * Fetches data from VDS API and updates the dashboard
  */
 
-// CONFIG: Update this with your VDS IP/domain
-const API_BASE = 'http://YOUR_VDS_IP:5000/api';
+// CONFIG: VDS API endpoint
+const API_BASE = 'http://[2a02:c207:2311:1618::1]:5000/api';
 
 // Cache for data
 let lastData = null;
