@@ -1,5 +1,9 @@
-// API Configuration
-const API_BASE = 'http://[2a02:c207:2311:1618::1]:5000/api';
+// API Configuration - HTTPS enabled
+const API_BASE = 'https://[2a02:c207:2311:1618::1]:5000/api';
+
+// Note: Using self-signed certificate.
+// First visit https://[2a02:c207:2311:1618::1]:5000/api/dashboard directly
+// Accept the security warning, then the dashboard will work.
 
 // Fetch with error handling
 async function fetchAPI(endpoint) {
