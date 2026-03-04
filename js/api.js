@@ -1,8 +1,8 @@
 // API Configuration - HTTPS enabled
-const API_BASE = 'https://[2a02:c207:2311:1618::1]:5000/api';
+const API_BASE = 'https://217.76.56.212:5000/api';
 
 // Note: Using self-signed certificate.
-// First visit https://[2a02:c207:2311:1618::1]:5000/api/dashboard directly
+// First visit https://217.76.56.212:5000/api/dashboard directly
 // Accept the security warning, then the dashboard will work.
 
 // Fetch with error handling
