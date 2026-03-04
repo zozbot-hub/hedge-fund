@@ -1,5 +1,5 @@
 // API Configuration - HTTPS via Cloudflare Tunnel
-const API_BASE = "https://asthma-francis-except-gilbert.trycloudflare.com/api";
+const API_BASE = "https://manuals-appear-terms-tolerance.trycloudflare.com/api";
 
 // Fetch with error handling
 async function fetchAPI(endpoint) {
