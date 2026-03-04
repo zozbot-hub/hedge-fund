@@ -1,5 +1,5 @@
 // API Configuration - HTTPS via Cloudflare Tunnel
-const API_BASE = "https://children-discrimination-arctic-rca.trycloudflare.com/api";
+const API_BASE = "https://contents-peaceful-leon-affiliates.trycloudflare.com/api";
 
 // Fetch with error handling
 async function fetchAPI(endpoint) {
