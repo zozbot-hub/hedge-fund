@@ -68,21 +68,27 @@ function renderTrades(trades) {
                     </tr>
                 </thead>
                 <tbody>
-                    ${trades.map(t => `
-                        <tr class="${t.pnl > 0 ? 'row-win' : t.pnl < 0 ? 'row-loss' : ''}">
+                    ${trades.map(t => {
+                        const pnl = t.pnl ? parseFloat(t.pnl) : null;
+                        const entryPrice = parseFloat(t.entry_price);
+                        const exitPrice = t.exit_price ? parseFloat(t.exit_price) : null;
+                        const size = parseFloat(t.size);
+                        return `
+                        <tr class="${pnl > 0 ? 'row-win' : pnl < 0 ? 'row-loss' : ''}">
                             <td class="timestamp">${formatTime(t.entry_time)}</td>
                             <td><a href="bot.html?id=${t.bot_id}">${t.bot_name}</a></td>
                             <td>${t.symbol}</td>
-                            <td class="side-${t.side}">${t.side.toUpperCase()}</td>
-                            <td>$${t.entry_price?.toFixed(4) || '-'}</td>
-                            <td>${t.exit_price ? '$' + t.exit_price.toFixed(4) : '-'}</td>
-                            <td>${t.size?.toFixed(4) || '-'}</td>
-                            <td class="${(t.pnl || 0) >= 0 ? 'positive' : 'negative'}">
-                                ${t.pnl ? formatCurrency(t.pnl) : '-'}
+                            <td class="side-${t.side}">${t.side?.toUpperCase()}</td>
+                            <td>$${!isNaN(entryPrice) ? entryPrice.toFixed(2) : '-'}</td>
+                            <td>${exitPrice ? '$' + exitPrice.toFixed(2) : '-'}</td>
+                            <td>${!isNaN(size) ? size.toFixed(4) : '-'}</td>
+                            <td class="${pnl >= 0 ? 'positive' : 'negative'}">
+                                ${pnl ? formatCurrency(pnl) : '-'}
                             </td>
                             <td><span class="badge badge-${t.status}">${t.status}</span></td>
                         </tr>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         </div>

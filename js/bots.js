@@ -19,7 +19,10 @@ function renderBotsGrid(bots) {
         return;
     }
 
-    container.innerHTML = bots.map(bot => `
+    container.innerHTML = bots.map(bot => {
+        const winRate = parseFloat(bot.win_rate) || 0;
+        const totalPnl = parseFloat(bot.total_pnl) || 0;
+        return `
         <a href="bot.html?id=${bot.bot_id}" class="bot-card">
             <div class="bot-card-header">
                 <h3>${bot.name}</h3>
@@ -36,14 +39,14 @@ function renderBotsGrid(bots) {
                     <span class="stat-label-small">Trades</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value-small ${bot.win_rate >= 50 ? 'positive' : bot.win_rate > 0 ? 'negative' : ''}">
-                        ${(bot.win_rate || 0).toFixed(1)}%
+                    <span class="stat-value-small ${winRate >= 50 ? 'positive' : winRate > 0 ? 'negative' : ''}">
+                        ${winRate.toFixed(1)}%
                     </span>
                     <span class="stat-label-small">Win Rate</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value-small ${(bot.total_pnl || 0) >= 0 ? 'positive' : 'negative'}">
-                        $${Math.round(bot.total_pnl || 0)}
+                    <span class="stat-value-small ${totalPnl >= 0 ? 'positive' : 'negative'}">
+                        $${Math.round(totalPnl)}
                     </span>
                     <span class="stat-label-small">PnL</span>
                 </div>
@@ -54,7 +57,8 @@ function renderBotsGrid(bots) {
                 ${bot.open_trades > 0 ? `<span class="badge badge-open">${bot.open_trades} open</span>` : ''}
             </div>
         </a>
-    `).join('');
+        `;
+    }).join('');
 }
 
 window.addEventListener('DOMContentLoaded', loadBots);
