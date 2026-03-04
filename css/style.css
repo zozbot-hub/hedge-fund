@@ -588,3 +588,34 @@ h2 {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-secondary);
 }
+/* Error Banner */
+.error-banner {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--danger);
+    color: white;
+    padding: 16px 24px;
+    text-align: center;
+    z-index: 99;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.error-banner a {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.error {
+    text-align: center;
+    padding: 40px;
+    color: var(--danger-light);
+}
