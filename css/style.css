@@ -619,3 +619,92 @@ h2 {
     padding: 40px;
     color: var(--danger-light);
 }
+
+/* Bot Detail Page Styles */
+
+.back-link {
+    display: inline-block;
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.bot-meta {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.badge-profit {
+    background: rgba(35, 134, 54, 0.2);
+    color: var(--success-light);
+}
+
+.badge-stop {
+    background: rgba(218, 54, 51, 0.2);
+    color: var(--danger-light);
+}
+
+.badge-info {
+    background: rgba(88, 166, 255, 0.2);
+    color: var(--accent);
+}
+
+/* ASCII Chart */
+.ascii-chart {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    overflow-x: auto;
+}
+
+.ascii-chart pre {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+.chart-legend {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-secondary);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.875rem;
+}
+
+/* Row colors for win/loss */
+.row-win {
+    background: rgba(35, 134, 54, 0.05);
+}
+
+.row-loss {
+    background: rgba(218, 54, 51, 0.05);
+}
+
+/* Code styling */
+code {
+    background: var(--bg-hover);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+}

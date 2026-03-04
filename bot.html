@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Details - Trading Bot Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">📊 Trading Bot Dashboard</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="bots.html">Bots</a></li>
+            <li><a href="trades.html">Trades</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <div class="header-left">
+                <a href="bots.html" class="back-link">← Back to Bots</a>
+                <h1 id="bot-name">Loading...</h1>
+                <div class="bot-meta" id="bot-meta"></div>
+            </div>
+            <div class="header-right">
+                <span class="status-badge" id="bot-status">--</span>
+            </div>
+        </header>
+
+        <!-- Bot Stats Overview -->
+        <div class="stats-grid" id="bot-stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Trades</div>
+                <div class="stat-value" id="stat-total-trades">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Open Positions</div>
+                <div class="stat-value" id="stat-open-trades">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="stat-win-rate">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total PnL</div>
+                <div class="stat-value" id="stat-pnl">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Profit</div>
+                <div class="stat-value" id="stat-avg-profit">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Loss</div>
+                <div class="stat-value" id="stat-avg-loss">--</div>
+            </div>
+        </div>
+
+        <!-- Performance Chart Placeholder -->
+        <section class="section">
+            <h2>Performance Over Time</h2>
+            <div id="performance-chart" class="chart-container">
+                <div class="loading">Loading chart...</div>
+            </div>
+        </section>
+
+        <!-- Open Positions -->
+        <section class="section">
+            <h2>Open Positions</h2>
+            <div id="open-positions">
+                <div class="loading">Loading positions...</div>
+            </div>
+        </section>
+
+        <!-- Trade History -->
+        <section class="section">
+            <h2>Trade History</h2>
+            <div id="trade-history">
+                <div class="loading">Loading trades...</div>
+            </div>
+        </section>
+
+        <!-- Recent Signals -->
+        <section class="section">
+            <h2>Recent Signals</h2>
+            <div id="recent-signals">
+                <div class="loading">Loading signals...</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/api.js?v=5"></script>
+    <script src="js/bot.js?v=5"></script>
+</body>
+</html>
