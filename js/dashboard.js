@@ -75,15 +75,15 @@ function renderSignals(signals) {
         <div class="table-wrapper">
             <table class="data-table compact">
                 <thead>
-                    <tr><th>Time</th><th>Bot</th><th>Action</th><th>Price</th></tr>
+                    <tr><th>Time</th><th>Bot</th><th>Signal</th><th>Price</th></tr>
                 </thead>
                 <tbody>
                     ${signals.slice(0, 10).map(s => `
                         <tr>
                             <td class="timestamp">${formatTime(s.timestamp)}</td>
                             <td>${s.bot_name}</td>
-                            <td class="side-${s.action}">${s.action.toUpperCase()}</td>
-                            <td>$${s.price?.toFixed(4) || '-'}</td>
+                            <td class="side-${s.signal_type}">${s.signal_type?.toUpperCase() || '-'}</td>
+                            <td>$${parseFloat(s.price)?.toFixed(2) || '-'}</td>
                         </tr>
                     `).join('')}
                 </tbody>
@@ -103,17 +103,21 @@ function renderTrades(trades) {
         <div class="table-wrapper">
             <table class="data-table compact">
                 <thead>
-                    <tr><th>Time</th><th>Bot</th><th>Side</th><th>PnL</th></tr>
+                    <tr><th>Time</th><th>Bot</th><th>Side</th><th>Status</th><th>PnL</th></tr>
                 </thead>
                 <tbody>
-                    ${trades.slice(0, 10).map(t => `
-                        <tr class="${t.pnl > 0 ? 'row-win' : t.pnl < 0 ? 'row-loss' : ''}">
+                    ${trades.slice(0, 10).map(t => {
+                        const pnl = t.pnl ? parseFloat(t.pnl) : null;
+                        return `
+                        <tr class="${pnl > 0 ? 'row-win' : pnl < 0 ? 'row-loss' : ''}">
                             <td class="timestamp">${formatTime(t.entry_time)}</td>
                             <td>${t.bot_name}</td>
-                            <td class="side-${t.side}">${t.side.toUpperCase()}</td>
-                            <td class="${(t.pnl || 0) >= 0 ? 'positive' : 'negative'}">${t.pnl ? formatCurrency(t.pnl) : '-'}</td>
+                            <td class="side-${t.side}">${t.side?.toUpperCase() || '-'}</td>
+                            <td><span class="badge badge-${t.status}">${t.status}</span></td>
+                            <td class="${pnl > 0 ? 'positive' : pnl < 0 ? 'negative' : ''}">${pnl ? formatCurrency(pnl) : '-'}</td>
                         </tr>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         </div>

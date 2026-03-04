@@ -12,6 +12,12 @@ from flask_cors import CORS
 # Import config (works with or without env vars)
 import config
 
+# Import psycopg2 extras for RealDictCursor
+try:
+    from psycopg2.extras import RealDictCursor
+except ImportError:
+    RealDictCursor = None
+
 app = Flask(__name__)
 LOG_PATH = config.LOG_PATH
 
@@ -27,6 +33,7 @@ CORS(app, resources={
 def get_db():
     try:
         import psycopg2
+        from psycopg2.extras import RealDictCursor
         return psycopg2.connect(
             host=config.DB_HOST,
             port=config.DB_PORT,

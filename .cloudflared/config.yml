@@ -1,0 +1,5 @@
+tunnel: 71183d37-c434-42ad-8978-2a944a440408
+credentials-file: /root/.openclaw/workspace/hedge-fund/.cloudflared/credentials.json
+
+ingress:
+  - service: http://localhost:5000
