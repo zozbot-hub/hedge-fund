@@ -16,8 +16,9 @@ async function loadDashboard() {
     document.getElementById('closed-trades').textContent = data.closed_trades_count || 0;
     
     const pnlEl = document.getElementById('total-pnl');
-    pnlEl.textContent = formatCurrency(data.total_pnl || 0);
-    pnlEl.className = `stat-value ${(data.total_pnl || 0) >= 0 ? 'positive' : 'negative'}`;
+    const totalPnl = parseFloat(data.total_pnl) || 0;
+    pnlEl.textContent = formatCurrency(totalPnl);
+    pnlEl.className = `stat-value ${totalPnl >= 0 ? 'positive' : 'negative'}`;
 
     // Bot summary
     renderBotsSummary(data.bots_summary);
@@ -49,15 +50,18 @@ function renderBotsSummary(bots) {
                     </tr>
                 </thead>
                 <tbody>
-                    ${bots.map(bot => `
+                    ${bots.map(bot => {
+                        const botPnl = parseFloat(bot.pnl) || 0;
+                        return `
                         <tr>
                             <td><a href="bot.html?id=${bot.bot_id}">${bot.name}</a></td>
                             <td>${bot.strategy} (${bot.timeframe})</td>
                             <td><span class="badge badge-${bot.status}">${bot.status}</span></td>
                             <td>${bot.open_trades || 0}</td>
-                            <td class="${(bot.pnl || 0) >= 0 ? 'positive' : 'negative'}">${formatCurrency(bot.pnl || 0)}</td>
+                            <td class="${botPnl >= 0 ? 'positive' : 'negative'}">${formatCurrency(botPnl)}</td>
                         </tr>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         </div>

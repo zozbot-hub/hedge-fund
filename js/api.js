@@ -18,15 +18,19 @@ async function fetchAPI(endpoint) {
 
 // Format currency
 function formatCurrency(value) {
-    if (value === null || value === undefined) return '$0.00';
-    const sign = value >= 0 ? '+' : '';
-    return `${sign}$${value.toFixed(2)}`;
+    if (value === null || value === undefined || value === '') return '$0.00';
+    const num = parseFloat(value);
+    if (isNaN(num)) return '$0.00';
+    const sign = num >= 0 ? '+' : '';
+    return `${sign}$${Math.abs(num).toFixed(2)}`;
 }
 
 // Format percentage
 function formatPercent(value) {
-    if (value === null || value === undefined) return '0%';
-    return `${value.toFixed(1)}%`;
+    if (value === null || value === undefined || value === '') return '0%';
+    const num = parseFloat(value);
+    if (isNaN(num)) return '0%';
+    return `${num.toFixed(1)}%`;
 }
 
 // Format timestamp
