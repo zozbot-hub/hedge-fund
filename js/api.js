@@ -1,8 +1,5 @@
-// API Configuration - HTTPS enabled
-const API_BASE = 'https://217.76.56.212:5000/api';
-
-// Track if we've shown the certificate warning
-let certWarningShown = false;
+// API Configuration - HTTPS via Cloudflare Tunnel
+const API_BASE = "https://children-discrimination-arctic-rca.trycloudflare.com/api";
 
 // Fetch with error handling
 async function fetchAPI(endpoint) {
@@ -15,32 +12,8 @@ async function fetchAPI(endpoint) {
         return await response.json();
     } catch (error) {
         console.error('API Error:', error);
-        
-        // Show certificate warning if it's a connection error
-        if ((error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) && !certWarningShown) {
-            certWarningShown = true;
-            showCertWarning();
-        }
-        
         return null;
     }
-}
-
-// Show certificate warning with link
-function showCertWarning() {
-    const banner = document.getElementById('error-banner') || document.createElement('div');
-    banner.id = 'error-banner';
-    banner.className = 'error-banner';
-    banner.innerHTML = `
-        <strong>⚠️ Connection Error</strong><br>
-        Please accept the self-signed certificate first:<br>
-        <a href="${API_BASE}/dashboard" target="_blank" style="color: #4fc3f7;">
-            Click here to accept certificate
-        </a><br>
-        Then refresh this page.
-    `;
-    banner.style.display = 'block';
-    document.body.appendChild(banner);
 }
 
 // Format currency
