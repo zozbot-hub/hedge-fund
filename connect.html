@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Connection Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 { color: #58a6ff; }
+        .step {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: #238636;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 10px;
+            font-weight: 600;
+        }
+        .btn:hover { background: #2ea043; }
+        .warning {
+            color: #f85149;
+            font-size: 14px;
+        }
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 API Connection Setup</h1>
+        
+        <div class="step">
+            <h3>Step 1: Accept the Certificate</h3>
+            <p>Click the button below to open the API endpoint directly:</p>
+            <a href="https://217.76.56.212:5000/api/dashboard" target="_blank" class="btn">
+                Open API Endpoint
+            </a>
+            <p class="warning">
+                You will see a security warning. Click "Advanced" → "Proceed" (Chrome) 
+                or "Accept Risk" (Firefox).
+            </p>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Test Connection</h3>
+            <button class="btn" onclick="testAPI()">Test API Connection</button>
+            <p id="result">Click to test...</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Go to Dashboard</h3>
+            <a href="index.html" class="btn">Open Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing...';
+            result.style.color = '#c9d1d9';
+            
+            try {
+                const response = await fetch('https://217.76.56.212:5000/api/dashboard');
+                if (response.ok) {
+                    const data = await response.json();
+                    result.textContent = `✅ Connected! Found ${data.total_bots} bots.`;
+                    result.style.color = '#3fb950';
+                } else {
+                    result.textContent = `❌ Error: HTTP ${response.status}`;
+                    result.style.color = '#f85149';
+                }
+            } catch (error) {
+                result.textContent = `❌ Connection failed: ${error.message}`;
+                result.style.color = '#f85149';
+            }
+        }
+    </script>
+</body>
+</html>
